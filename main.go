@@ -20,10 +20,9 @@ func main() {
 		Verbosity: 0,
 	})
 
-	tweet, err := twitter.PostTweet("This is the test tweet")
+	tweets, err := twitter.PostTweet("This is the test tweet")
 	if err != nil {
 		fmt.Println(err)
 	}
-
-	fmt.Printf("Newly posted tweet:\n%+v\n", tweet)
+	fmt.Printf("Newly posted tweet:\n%+v\n", tweets)
 }
