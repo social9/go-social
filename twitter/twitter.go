@@ -25,6 +25,7 @@ type TwitterConfig struct {
 type TwitterClient interface {
 	GetTweets(count int) ([]twitter.Tweet, error)
 	PostTweet(status string) (*twitter.Tweet, error)
+	GetUserInfo() (*twitter.User, error)
 }
 
 func NewTwitterClient(opts TwitterConfig) (TwitterClient, error) {
@@ -81,6 +82,11 @@ func (s *TwitterConfig) GetTweets(count int) ([]twitter.Tweet, error) {
 func (s *TwitterConfig) PostTweet(status string) (*twitter.Tweet, error) {
 	tweet, _, err := s.client.Statuses.Update(status, nil)
 	return tweet, err
+}
+
+func (s *TwitterConfig) GetUserInfo() (*twitter.User, error) {
+	user, _, err := s.client.Accounts.VerifyCredentials(nil)
+	return user, err
 }
 
 func validateOpts(opts TwitterConfig) error {
