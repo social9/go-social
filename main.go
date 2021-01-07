@@ -1,29 +1,24 @@
 package main
 
 import (
-	"fmt"
+	"log"
 
-	"github.com/social9/go-social/config"
 	"github.com/social9/go-social/twitter"
 )
 
 func main() {
 
-	env := config.Env()
-
-	twitter, _ := twitter.NewTwitterClient(twitter.TwitterConfig{
-		TwitterConsumerKey:    env.TWConsumerKey,
-		TwitterConsumerSecret: env.TWConsumerSecret,
+	twitter, _ := twitter.NewTwitterClient(twitter.Config{
+		TwitterConsumerKey:    "<Twitter Consumer Key>",
+		TwitterConsumerSecret: "<Twitter consumer secret>",
 		TwitterAccessToken:    "<User Access Token>",
 		TwitterAccessSceret:   "<User Access Secret>",
-
-		Verbosity: 0,
 	})
 
 	tweet, err := twitter.PostTweet("This is the test tweet")
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 
-	fmt.Printf("Newly posted tweet:\n%+v\n", tweet)
+	log.Printf("Newly posted tweet:\n%+v", tweet)
 }
