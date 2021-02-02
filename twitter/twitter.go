@@ -4,6 +4,7 @@ import (
 	"errors"
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/dghubble/go-twitter/twitter"
 	"github.com/dghubble/oauth1"
@@ -23,6 +24,7 @@ type Config struct {
 type Client interface {
 	GetTweets(count int) ([]twitter.Tweet, error)
 	PostTweet(status string) (*twitter.Tweet, error)
+	DeleteTweet(id string) (*twitter.Tweet, error)
 	GetUserInfo() (*twitter.User, error)
 }
 
@@ -91,6 +93,16 @@ func (s *Config) PostTweet(status string) (*twitter.Tweet, error) {
 func (s *Config) GetUserInfo() (*twitter.User, error) {
 	user, _, err := s.client.Accounts.VerifyCredentials(nil)
 	return user, err
+}
+
+// DeleteTweet based on the id
+func (s *Config) DeleteTweet(id string) (*twitter.Tweet, error) {
+	delID, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+	tweet, _, err := s.client.Statuses.Destroy(delID, nil)
+	return tweet, err
 }
 
 func validateOpts(opts Config) error {
